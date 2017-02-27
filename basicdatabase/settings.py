@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     #Used for generating tables/filters
     'django_tables2',
     'django_filters',
-    #'bootstrap3',
+    'crispy_forms',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -75,15 +76,20 @@ TEMPLATES = [
         },
     },
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 WSGI_APPLICATION = 'basicdatabase.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+    'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'OGDB',
+    'USER':'admin',
+    'PASSWORD':'admin' ,
+    'HOST':'localhost',
+    'PORT':'',
     }
 }
 
@@ -142,17 +148,3 @@ STATICFILES_DIRS = (
 )
 
 #FOR HEROKU
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-ALLOWED_HOSTS = ['*']
-
-DEBUG = False
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-

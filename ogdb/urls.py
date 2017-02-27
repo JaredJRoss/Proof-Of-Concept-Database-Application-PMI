@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^new_person/$', views.add_new, name= 'add'),
     url(r'^edit/(?P<person_id>\d+)/$', views.item_edit, name='item_edit'),
     url(r'^delete/(?P<pk>\d+)/$', views.personDelete.as_view(model = Person), name="person_delete"),
+    url(r'^test/$', views.PersonListView.as_view(), name="person_list_2"),
 
 
 

@@ -12,6 +12,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.views.generic import ListView
+from django.views.generic import TemplateView
+from django_tables2 import SingleTableView
+
+
 
 
 # Create your views here.
@@ -84,6 +89,24 @@ class personDelete(DeleteView):
 	success_url = reverse_lazy('home')
 	template_name = 'ogdb/person_confirm_delete.html'
 
+from .filters import PersonListFilter
+from .forms import PersonListFormHelper
+
+class PersonListView(TemplateView):
+    template_name = 'ogdb/person_list_2.html'
+
+    def get_queryset(self, **kwargs):
+        return Person.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(PersonListView, self).get_context_data(**kwargs)
+        filter = PersonListFilter(self.request.GET, queryset=self.get_queryset(**kwargs))
+        filter.form.helper = PersonListFormHelper()
+        table = PersonTable(filter.qs)
+        RequestConfig(self.request).configure(table)
+        context['filter'] = filter
+        context['table'] = table
+        return context
 
 
 
